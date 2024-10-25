@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج طلبات</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("mg5Gf771fhoI5UBtS");  // ضع معرف المستخدم الخاص بك من EmailJS هنا
+        })();
+        
+        function sendMail(event) {
+            event.preventDefault();
+
+            // الحصول على بيانات النموذج
+            const name = document.getElementById("name").value;
+            const phoneTR = document.getElementById("phoneTR").value;
+            const phoneSY = document.getElementById("phoneSY").value;
+            const order = document.getElementById("order").value;
+            const attachment = document.getElementById("attachment").files[0];
+
+            // إعداد معلمات البريد الإلكتروني
+            const params = {
+                name: name,
+                phoneTR: phoneTR,
+                phoneSY: phoneSY,
+                order: order
+            };
+
+            // تحميل الملف باستخدام EmailJS إذا كان موجودًا
+            if (attachment) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    params.attachment = event.target.result;
+
+                    // إرسال البريد الإلكتروني عبر EmailJS
+                    emailjs.send("service_ix65kqe", "template_6kxtm7h", params)
+                        .then(function(response) {
+                            alert("تم إرسال الطلب بنجاح!");
+                        }, function(error) {
+                            alert("حدث خطأ أثناء إرسال الطلب.");
+                        });
+                };
+                reader.readAsDataURL(attachment);  // قراءة الملف على شكل Base64
+            } else {
+                emailjs.send("service_ix65kqe", "template_6kxtm7h", params)
+                    .then(function(response) {
+                        alert("تم إرسال الطلب بنجاح!");
+                    }, function(error) {
+                        alert("حدث خطأ أثناء إرسال الطلب.");
+                    });
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPM7mpkDrCLcJGyrLgXb8kIzFKxH5iP8pIXZaN2E0zAhdOzyLB4A-RDx8&s=10'); /* رابط صورتك هنا */
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        /* شريط النص المتحرك */
+        .marquee {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee span {
+            display: inline-block;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, textarea, select {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط النص المتحرك -->
+    <div class="marquee">
+        <span>مرحباً بكم في موقعنا! قدم طلباتك الآن بأفضل الأسعار!</span>
+    </div>
+
+    <div class="container">
+        <h2>اطلب رصيدك الان </h2>
+        <form id="contact-form" onsubmit="sendMail(event)">
+            <label for="name">الاسم</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phoneTR">رقم هاتف تركي</label>
+            <input type="tel" id="phoneTR" name="phoneTR" required>
+
+            <label for="phoneSY">رقم هاتف سوري</label>
+            <input type="tel" id="phoneSY" name="phoneSY" required>
+
+            <label for="order">اختر الباقة</label>
+            <select id="order" name="order" required>
+                <option value="5000 رصيد سوري 25 ليرة">5000 رصيد سوري 25 ليرة</option>
+                <option value="6000 وحدة بس ب 30 TL ">6000 وحدة بس ب 30 TL </option>
+                <option value="7000 وحدة بس ب 35 TL">7000 وحدة بس ب 35 TL</option>
+                 <option value="9000وحدة بس ب 40 TL ">9000وحدة بس ب 40 TL </option>
+                  <option value="10000 وحدة بس ب  45 TL">10000 وحدة بس ب  45 TL</option>
+                   <option value="15000 وحدة بس ب 60 TL">15000 وحدة بس ب 60 TL</option>
+                    <option value="20000 وحدة بس ب 80 TL">20000 وحدة بس ب 80 TL</option>
+                     <option value="30000 وحدة بس ب 110 TL">30000 وحدة بس ب 110 TL</option>
+                           <option value="40000 وحدة بس ب 140 TL">40000 وحدة بس ب 140 TL</option>
+                                 <option value="50000 وحدة بس ب 165 TL">50000 وحدة بس ب 165 TL</option>
+                                 <option value="100 الف وحدة بس ب 310 TL">100 الف وحدة بس ب 310 TL</option>
+                                 <option value="200 الف وحدة بس ب 600 TL">200 الف وحدة بس ب 600 TL</option>
+            </select>
+
+            
+ <p>قم باارسال المبلغ على حساب البنك الخاص بنا الايبان بالاسفل وقم باارسال ملف التحويل للواتس اب الخاص بنا بالنقر على رز ارسال ملف على واتس اب</p>
+ <a href="https://wa.me/+905375090593" class="whatsapp-button" target="_blank">
+ارسال ملف على الواتس اب
+</a>
+            <button type="submit">إرسال الطلب</button>
+            
+              
+ <p>حساب البنك
+<p>TR35 0001 0016 7389 9828 8450 01
+<p>اسم صاحب الحساب
+<p>SHADI BAKIR</p>
+        </form>
+    </div>
+
+</body>
+</html>
